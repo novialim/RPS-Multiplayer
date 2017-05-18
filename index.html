@@ -42,8 +42,10 @@
 
 
         <div class="form-group">
-                <label for="name-input">This is Enterprise. Identify yourself:</label>
+                <label for="name-input">Identify yourself:</label>
                 <input class="form-control" id="name-input" type="text">
+                <input class="btn btn-primary" id="addUser" type="submit" value="Beam Me Up">
+                
         </div>
 
         <div id="urlBox">
@@ -192,7 +194,23 @@ connectionsRef.on("value", function(snap) {
     var getName = $('.form-group');
     
     $(getName).hide();
-    $(getName).slideToggle('slow');
+    $(getName).slideToggle(2000,"swing");
+
+    var urlBoxT = $('#urlBox');
+    $(urlBoxT).hide();
+
+
+
+$("#addUser").on("click", function(event) {
+        event.preventDefault();
+        // This line grabs the input from the textbox
+        var  nameadd = $("#name-input").val().trim();
+
+        if(nameadd!="")
+          $(urlBoxT).slideDown(1000);
+      });
+
+
   
   
 });
