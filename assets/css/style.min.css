@@ -1,4 +1,4 @@
-body{font-family:jaf-facitweb,Helvetica,Arial,sans-serif;background-color:#fff;margin:0}
+body{font-family: "bungee",Helvetica,Arial,sans-serif;background-color:#fff;margin:0}
 
 #content{width:520px;margin:0 auto 100px;background:#fff;position:relative;z-index:2;padding-top:20px}
 #content h2.first{margin-top:0}
@@ -30,9 +30,9 @@ header{overflow:hidden}
 h1{margin-top:0;margin-bottom:28px;font-weight:700;font-style:normal;font-size:4.1em;line-height:1.1;font-family:jaf-domus-titling-web;color:#fff;letter-spacing:-2px}
 h2{line-height:35px;margin-bottom:39px;font-size:35px;font-style:normal;font-weight:700;font-family:jaf-domus-titling-web;text-align:center;color:rgba(34,34,34,1.00);letter-spacing:-1px}
 h2.prompt{height:72px;overflow:hidden;margin-bottom:0;clear:both}
-p{margin-bottom:25px;font-style:normal;font-weight:400;font-family:jaf-facitweb;font-size:16px}
+p{margin-bottom:25px;font-style:normal;font-weight:400;font-family:"bungee";font-size:16px}
 p,li{line-height:1.7}
-p.tagline{color:#0a343c;font-size:18px;margin-bottom:50px;font-style:normal;font-weight:400;font-family:jaf-facitweb}
+p.tagline{color:#0a343c;font-size:18px;margin-bottom:50px;font-style:normal;font-weight:400;font-family:"bungee"}
 a{color:#00afc4;text-decoration:underline}
 a:hover{color:#327C92;text-decoration:none}
 #icons{width:515px;padding:16px;height:100px;margin:0 auto;display:none}
@@ -43,7 +43,7 @@ a:hover{color:#327C92;text-decoration:none}
 #icons .lizard{background-position:-273px 0}
 #icons .Spock{background-position:-364px 0;margin-right:0}
 #subprompt{margin:0;visibility:hidden;position:absolute;width:600px}
-#status-bar{background:#FE1A00;position:fixed;bottom:10px;right:10px;width:190px;z-index:5000;padding:15px;border-radius:5px;color:#fff;opacity:.8;text-align:center;font-family:jaf-facitweb}
+#status-bar{background:#FE1A00;position:fixed;bottom:10px;right:10px;width:190px;z-index:5000;padding:15px;border-radius:5px;color:#fff;opacity:.8;text-align:center;font-family:"bungee"}
 #status-bar.success{background:#5CB811}
 #status-bar.error{background:#FE1A00}
 #vs{position:absolute;visibility:hidden;width:600px}
@@ -57,6 +57,3 @@ p.button:active{font-size:18px;border:1px solid #5b992b;border-bottom:1px solid 
 #score2{right:30px;left:auto}
 #score1 p,#score2 p{margin:0;font-weight:600}p#p1score,p
 #p2score{margin:0;font-size:50px;line-height:30px;font-family:jaf-domus-titling-web;font-weight:400}
-
-
-.no-close .ui-dialog-titlebar-close {display: none;}
