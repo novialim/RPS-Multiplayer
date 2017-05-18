@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Rock, Paper, Scissors, Lizard, Spock – play live!</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Online dispute resolution the traditional way, from the relative safety of your computer." />
+
+    <script src="https://use.typekit.net/pnq2dhm.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" media="all" />
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+
+  </head>
+  <body>
+    <div id="play">
+      <div class="wrap">
+        <header>
+          <h1>
+            <span class="line1">
+              <span class="R">R</span>
+              <img class="o" src="assets/images/rock.png"/>
+              <span class="ck">ck</span>
+              <span class="p">p</span><img class="a" src="assets/images/paper.png"/>
+              <span class="per">per</span>
+            </span>
+            <span class="line2">
+              <span class="s">s</span>
+              <img class="c" src="assets/images/scissors.png"/>
+              <span class="issors">issors</span>
+              <br />
+            </span>
+            
+
+        </header>
+        <h2 class="prompt">Invite a friend to settle your<br/> petty dispute live over the web</h2><br/>
+
+
+        <div class="form-group">
+                <label for="name-input">This is Enterprise. Identify yourself:</label>
+                <input class="form-control" id="name-input" type="text">
+        </div>
+
+        <div id="urlBox">
+          <p>Send this URL to your friend, then wait here for them to show up.</p>
+          <input type="text" name="url" class="url" value="waiting for opponent..."/>
+          
+        </div>
+        <div id ="vs">
+          <p id="vstext">VS</p>
+          <div id="opponent">
+          </div>
+        </div>
+        <div id="icons">
+          <div class="rock"></div>
+          <div class="paper"></div>
+          <div class="scissors"></div>
+          <div class="lizard"></div>
+          <div class="Spock"></div>
+        </div>
+        <p id="subprompt">Take your pick</p>
+        <p id="rematch" class="button">Rematch!</p>
+      </div><!-- /.wrap -->
+    </div><!-- /#play -->
+    <div id="content">
+
+    </div><!-- /#content -->
+    
+    <div id="chat">
+      <input id="username" type="text" placeholder="Name"><br/>
+      <input id="text" type="text" placeholder="Message"><br/>
+      <button id="post">Post</button><br/>
+      <div id="results"></div>
+    </div>
+
+    <footer>
+    </footer>
+    <div id="status-bar">Opponent offline</div>
+    <div id="score1"><p>YOU</p><p id="p1score">0</p></div>
+    <div id="score2"><p>THEM</p><p id="p2score">0</p></div>
+
+    <script>
+      
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyASl98xZRGcnShG7gIRuKs_VY8YqCs4b4Y",
+        authDomain: "global-pagoda-167906.firebaseapp.com",
+        databaseURL: "https://global-pagoda-167906.firebaseio.com",
+        projectId: "global-pagoda-167906",
+        storageBucket: "global-pagoda-167906.appspot.com",
+        messagingSenderId: "198030424180"
+      };
+      firebase.initializeApp(config);
+
+      // Create a variable to reference the database
+      var database = firebase.database();
+
+      $("#post").on("click", function(event) {
+          event.preventDefault();
+          var msgUser = $("#username").val().trim();
+          var msgText = $("#text").val().trim();
+          $("#text").value = "";
+
+          console.log("msgUser: "+ msgUser);
+          console.log("msgText: "+ msgText);
+
+          // Save new value to Firebase
+          database.ref().set({
+            msgUser: msgUser,
+            msgText: msgText
+          });
+
+      });
+    
+      
+      var compare = function(choice1,choice2){
+      if(choice1===choice2){
+              return "The result is a tie!";
+          }
+          if(choice1==="rock"){
+              if(choice2==="scissors"){
+                  return "rock wins";
+              }
+              else{
+                  return "paper wins";
+              }
+          }
+          if(choice1==="paper"){
+              if(choice2==="rock"){
+                  return "paper wins";
+              }
+              else{
+                  return "scissors wins";
+              }
+          }
+          if(choice1==="scissors"){
+              if(choice2==="rock"){
+                  return "rock wins";
+              }
+              else{
+                  return "scissors wins";
+              }
+          }
+      };
+      //compare(userChoice,computerChoice);
+
+
+
+// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
+// connectionsRef references a specific location in our database.
+// All of our connections will be stored in this directory.
+var connectionsRef = database.ref("/connections");
+
+// '.info/connected' is a special location provided by Firebase that is updated every time
+// the client's connection state changes.
+// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
+var connectedRef = database.ref(".info/connected");
+
+// When the client's connection state changes...
+connectedRef.on("value", function(snap) {
+
+  // If they are connected..
+  if (snap.val()) {
+
+    // Add user to the connections list.
+    var con = connectionsRef.push(true);
+
+    // Remove user from the connection list when they disconnect.
+    con.onDisconnect().remove();
+  }
+});
+
+// When first loaded or when the connections list changes...
+connectionsRef.on("value", function(snap) {
+
+  // Display the viewer count in the html.
+  // The number of online users is the number of children in the connections list.
+  $("#watchers").html(snap.numChildren());
+});
+
+// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //      
+
+</script>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var getName = $('.form-group');
+    
+    $(getName).hide();
+    $(getName).slideToggle('slow');
+  
+  
+});
+
+</script>
+
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.8.2/TweenMax.min.js"></script> -->
+<!--     <script src="js/lib/TweenMax.min.js"></script>
+    <script src="js/rpsls.min.js?1.1.0"></script> -->
+  </body>
+</html>
