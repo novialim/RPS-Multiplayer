@@ -14,16 +14,13 @@ header{overflow:hidden}
 #play span.line1{margin-left:105px}
 #play span.line2{margin:-12px 0 0 160px}
 #play span.line3{margin:-15px 0 0 202px}
-#play img.o{margin:20px 0 0 -2px}
+#play img.o{margin:8px 0 0 -2px}
 #play span.ck{margin-left:-3px}
 #play span.p{margin-left:30px}
-#play img.a{margin:25px 0 0 -14px}
+#play img.a{margin:15px 0 0 -14px}
 #play span.per{margin:0 0 0 -10px}
-#play img.c{margin:27px 0 0 3px}
+#play img.c{margin:15px 0 0 3px}
 #play span.issors{margin:0 0 0 -2px}
-#play span.li{margin:0 0 0 30px}
-#play img.z{margin:22px 0 0 2px}
-#play span.ard{margin:0 0 0 -12px}
 #play img.o2{margin:22px 5px 0}
 #play img.o2.teleport{position:absolute;margin-left:72px}
 /*#play img.o,#play img.a,#play img.c,#play img.z,#play img.o2{visibility:hidden}*/
@@ -40,8 +37,6 @@ a:hover{color:#327C92;text-decoration:none}
 #icons:after{visibility:hidden;display:block;content:"";clear:both;height:0}
 #icons .paper{background-position:-91px 0}
 #icons .scissors{background-position:-182px 0}
-#icons .lizard{background-position:-273px 0}
-#icons .Spock{background-position:-364px 0;margin-right:0}
 #subprompt{margin:0;visibility:hidden;position:absolute;width:600px}
 #status-bar{background:#FE1A00;position:fixed;bottom:10px;right:10px;width:190px;z-index:5000;padding:15px;border-radius:5px;color:#fff;opacity:.8;text-align:center;font-family:"bungee"}
 #status-bar.success{background:#5CB811}
