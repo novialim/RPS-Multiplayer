@@ -138,6 +138,11 @@ var playersRef = database.ref('players');
 
              }
 
+             else if (snapshot.child("players/1").exists() && snapshot.child("players/2").exists()){
+                  $('#p1p2').text("Game is full, refresh and join in a few minutes.");
+
+             }
+
           });
 
         } // End of if username != null
