@@ -63,6 +63,13 @@ var playersRef = database.ref('players');
         if(username!=""){
 
           database.ref().once('value', function(snapshot){
+
+            if (snapshot.child("players/1").exists() && snapshot.child("players/2").exists()){
+                  $('#p1p2').text("Game is full, refresh and join in a few minutes.");
+
+             }
+
+
              if(!snapshot.child("players/1").exists() &&
               !snapshot.child("players/2").exists()){
                 p1con = playersRef.child(1).push();
@@ -135,11 +142,6 @@ var playersRef = database.ref('players');
                 var disconnect2 = firebase.database().ref("players/2");
                 disconnect2.onDisconnect().set(null);
 
-
-             }
-
-             else if (snapshot.child("players/1").exists() && snapshot.child("players/2").exists()){
-                  $('#p1p2').text("Game is full, refresh and join in a few minutes.");
 
              }
 
