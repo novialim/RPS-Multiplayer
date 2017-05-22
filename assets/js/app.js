@@ -50,6 +50,43 @@ var playersRef = database.ref('players');
     var urlBoxT = $('#urlBox');
     $(urlBoxT).hide();
 
+
+// ----------------------------------------------------------------
+// Handle game full on window load
+// ----------------------------------------------------------------
+
+
+    $(window).load(function() {
+       database.ref().once('value', function(snapshot){
+
+      if (snapshot.child("players/1").exists() && snapshot.child("players/2").exists()){
+            $("#gameStatus").html("Game is full. Kick back, relax and enjoy ongoing game. <br/> Refresh your window to join in the fun when game slot becomes available");
+
+        $(getName).hide();
+
+        $('#player1').css('visibility', 'hidden');
+        $('#player2').css('visibility', 'hidden');
+        $("#p1Name").html("&nbsp;");
+        $("#p2Name").html("&nbsp;");
+
+        $("#p1WinsLosses").css('visibility', 'hidden');
+        $("#p2WinsLosses").css('visibility', 'hidden');
+
+
+        $("#p1scissors").unbind('click').attr('disabled', 'disabled');
+        $("#p1rock").unbind('click').attr('disabled', 'disabled');
+        $("#p1paper").unbind('click').attr('disabled', 'disabled');
+
+        $("#p2scissors").unbind('click').attr('disabled', 'disabled');
+        $("#p2rock").unbind('click').attr('disabled', 'disabled');
+        $("#p2paper").unbind('click').attr('disabled', 'disabled');
+
+       }
+      });
+
+    });
+
+
 // ----------------------------------------------------------------
 // Get/Check Player Names Elements / Connections / Inputs
 // ----------------------------------------------------------------
@@ -370,21 +407,36 @@ function updateGameResult(){
 }
 
 function resetGameRound(){
+
+  console.log("player 3 is whichPlayer?"+whichPlayer);
          
-    $("#p"+whichPlayer+"scissors").show();
-    $("#p"+whichPlayer+"rock").show();
-    $("#p"+whichPlayer+"paper").show();  
+    $("#p"+whichPlayer+"scissors").hide();
+    $("#p"+whichPlayer+"rock").hide();
+    $("#p"+whichPlayer+"paper").hide();  
 
     if(whichPlayer===1){
       $("#p2scissors").css('visibility', 'hidden');
       $("#p2rock").css('visibility', 'hidden');
       $("#p2paper").css('visibility', 'hidden');
     }
-    else{
+    else if(whichPlayer===2){
       $("#p1scissors").css('visibility', 'hidden');
       $("#p1rock").css('visibility', 'hidden');
       $("#p1paper").css('visibility', 'hidden');
     }
+    else{
+      $("#p1scissors").css('visibility', 'hidden');
+      $("#p1rock").css('visibility', 'hidden');
+      $("#p1paper").css('visibility', 'hidden'); 
+      $("#p2scissors").css('visibility', 'hidden');
+      $("#p2rock").css('visibility', 'hidden');
+      $("#p2paper").css('visibility', 'hidden'); 
+       
+    }
+
+      $("#p"+whichPlayer+"scissors").show();
+      $("#p"+whichPlayer+"rock").show();
+      $("#p"+whichPlayer+"paper").show();  
 
       $("#gameStatus").html("&nbsp;");
 
@@ -444,6 +496,8 @@ connectionsRef.on("value", function(snap) {
     $("#prompt").show();
     reset();
   } 
+
+
 
 
 });
