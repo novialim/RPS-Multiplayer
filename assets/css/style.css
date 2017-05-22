@@ -1,8 +1,8 @@
-body{font-family: "bungee",Helvetica,Arial,sans-serif;background-color:#fff;margin:0}
+body{font-family: "bungee",Helvetica,Arial,sans-serif;background-color:#f2c300;margin:0}
 
-#content{width:520px;margin:0 auto 100px;background:#fff;position:relative;z-index:2;padding-top:20px}
+#content{width:100%;margin:0 auto 100px;position:relative;z-index:2;padding-top:20px}
 #content h2.first{margin-top:0}
-#play{margin:0;background:#00afc4;padding:30px 0 80px;text-align:center;height:440px;overflow:hidden}
+#play{margin:0;background:#f2c300;padding:30px 0 80px;text-align:center;height:440px;overflow:hidden}
 header{overflow:hidden}
 #play.win{background:#5CB811}
 #play.lose{background:#FE1A00}
@@ -30,7 +30,7 @@ h2.prompt{height:72px;overflow:hidden;margin-bottom:0;clear:both}
 p{margin-bottom:25px;font-style:normal;font-weight:400;font-family:"bungee";font-size:16px}
 p,li{line-height:1.7}
 p.tagline{color:#0a343c;font-size:18px;margin-bottom:50px;font-style:normal;font-weight:400;font-family:"bungee"}
-a{color:#00afc4;text-decoration:underline}
+a{color:#f2c300;text-decoration:underline}
 a:hover{color:#327C92;text-decoration:none}
 #icons{width:515px;padding:16px;height:100px;margin:0 auto;display:none}
 #icons div{background:transparent url(/images/bg-rpsls-icons.png) no-repeat;width:91px;height:91px;float:left;margin-right:15px;cursor:pointer;opacity:0}
@@ -52,3 +52,6 @@ p.button:active{font-size:18px;border:1px solid #5b992b;border-bottom:1px solid 
 #score2{right:30px;left:auto}
 #score1 p,#score2 p{margin:0;font-weight:600}p#p1score,p
 #p2score{margin:0;font-size:50px;line-height:30px;font-family:"terfens";font-weight:400}
+#player1{position: relative;float: left; width:35%;}
+#player2{position: relative;float: right; width:35%;}
+#fightzone{position: relative;float: left; width:29%;}

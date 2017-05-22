@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Rock, Paper, Scissors, Lizard, Spock – play live!</title>
+    <title>Rock, Paper, Scissors – play live!</title>
     <meta charset="utf-8" />
     <meta name="description" content="Online dispute resolution the traditional way, from the relative safety of your computer." />
 
     <script src="https://use.typekit.net/aet2dag.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
-    <link rel="stylesheet" type="text/css" href="assets/css/style.min.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" media="all" />
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
 
     <!-- jQuery -->
@@ -38,18 +38,17 @@
             
 
         </header>
-        <h2 class="prompt">Invite a friend to settle your<br/> petty dispute live over the web</h2>
-
-
-        <div class="form-group">
-                <label for="name-input">Identify yourself:</label>
-                <input class="form-control" id="name-input" type="text">
-                <input class="btn btn-primary" id="addUser" type="submit" value="Beam Me Up">
-                
-        </div>
+        <h2 id="prompt">Invite a friend to settle your<br/> petty dispute live over the web</h2>
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="name-input">Identify yourself:</label>
+            <input type="text" id="name-input" class="form-control">
+            <input id="addUser" type="submit" class="btn btn-default" value="Beam Me Up">
+          </div>
+        </form>
 
         <div id="urlBox">
-          <p>Send this URL to your friend, then wait here for them to show up.</p>
+          <p>Welcome <span id="welcomeusername"></span>. Send this URL to your friend, then wait here for them to show up.</p>
           <input type="text" name="url" class="url" value="waiting for opponent..."/>
           
         </div>
@@ -64,166 +63,59 @@
           <div class="scissors"></div>
           
         </div>
+
         <p id="subprompt">Take your pick</p>
         <p id="rematch" class="button">Rematch!</p>
       </div><!-- /.wrap -->
-    </div><!-- /#play -->
-    <div id="content">
 
-    </div><!-- /#content -->
     
-    <div id="chat">
+        <div id="content">
+          <div id="player1">
+              <div id="p1Name">&nbsp;</div>
+              <div id="p1WinsLosses">&nbsp;</div>
+              <div id="p1guesses">
+                <img id="p1rock" src="assets/images/rock1.png">
+                <img id="p1scissors" src="assets/images/scissors1.png">
+                <img id="p1paper" src="assets/images/paper1.png">
+              </div>   
+          </div>
+          <div id="fightzone">
+
+            <div id="p1p2"></div>
+            <div id="gameStatus"></div>
+            
+            
+          </div>
+          <div id="player2">
+            <div id="p2Name">&nbsp;</div>
+            <div id="p2WinsLosses">&nbsp;</div>
+            <div id="p2guesses">
+                  <img id="p2rock" src="assets/images/rock1.png">
+                  <img id="p2scissors" src="assets/images/scissors1.png">
+                  <img id="p2paper" src="assets/images/paper1.png">
+            </div>
+          </div>
+        </div><!-- /#content -->
+
+
+
+    </div><!-- /#play -->
+
+
+    
+<!--     <div id="chat">
       <input id="username" type="text" placeholder="Name"><br/>
       <input id="text" type="text" placeholder="Message"><br/>
       <button id="post">Post</button><br/>
       <div id="results"></div>
-    </div>
+    </div> -->
 
     <footer>
     </footer>
-    <div id="status-bar">Opponent offline</div>
-    <div id="score1"><p>YOU</p><p id="p1score">0</p></div>
-    <div id="score2"><p>THEM</p><p id="p2score">0</p></div>
-
-    <script>
-      
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyASl98xZRGcnShG7gIRuKs_VY8YqCs4b4Y",
-        authDomain: "global-pagoda-167906.firebaseapp.com",
-        databaseURL: "https://global-pagoda-167906.firebaseio.com",
-        projectId: "global-pagoda-167906",
-        storageBucket: "global-pagoda-167906.appspot.com",
-        messagingSenderId: "198030424180"
-      };
-      firebase.initializeApp(config);
-
-      // Create a variable to reference the database
-      var database = firebase.database();
-
-      $("#post").on("click", function(event) {
-          event.preventDefault();
-          var msgUser = $("#username").val().trim();
-          var msgText = $("#text").val().trim();
-          $("#text").value = "";
-
-          console.log("msgUser: "+ msgUser);
-          console.log("msgText: "+ msgText);
-
-          // Save new value to Firebase
-          database.ref().set({
-            msgUser: msgUser,
-            msgText: msgText
-          });
-
-      });
-    
-      
-      var compare = function(choice1,choice2){
-      if(choice1===choice2){
-              return "The result is a tie!";
-          }
-          if(choice1==="rock"){
-              if(choice2==="scissors"){
-                  return "rock wins";
-              }
-              else{
-                  return "paper wins";
-              }
-          }
-          if(choice1==="paper"){
-              if(choice2==="rock"){
-                  return "paper wins";
-              }
-              else{
-                  return "scissors wins";
-              }
-          }
-          if(choice1==="scissors"){
-              if(choice2==="rock"){
-                  return "rock wins";
-              }
-              else{
-                  return "scissors wins";
-              }
-          }
-      };
-      //compare(userChoice,computerChoice);
-
-
-
-// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //
-// connectionsRef references a specific location in our database.
-// All of our connections will be stored in this directory.
-var connectionsRef = database.ref("/connections");
-
-// '.info/connected' is a special location provided by Firebase that is updated every time
-// the client's connection state changes.
-// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
-var connectedRef = database.ref(".info/connected");
-
-// When the client's connection state changes...
-connectedRef.on("value", function(snap) {
-
-  // If they are connected..
-  if (snap.val()) {
-
-    // Add user to the connections list.
-    var con = connectionsRef.push(true);
-
-    // Remove user from the connection list when they disconnect.
-    con.onDisconnect().remove();
-  }
-});
-
-// When first loaded or when the connections list changes...
-connectionsRef.on("value", function(snap) {
-
-  // Display the viewer count in the html.
-  // The number of online users is the number of children in the connections list.
-  $("#watchers").html(snap.numChildren());
-});
-
-// -------------------------------------------------------------- (CRITICAL - BLOCK) --------------------------- //      
-
-</script>
-
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    var getName = $('.form-group');
-    
-    $(getName).hide();
-    $(getName).slideToggle(2000,"swing");
-
-    var urlBoxT = $('#urlBox');
-    $(urlBoxT).hide();
-
-
-
-$("#addUser").on("click", function(event) {
-        event.preventDefault();
-        // This line grabs the input from the textbox
-        var  nameadd = $("#name-input").val().trim();
-
-        if(nameadd!="")
-          $(urlBoxT).slideDown(1000);
-      });
-
-
-  
-  
-});
-
-</script>
-
-
+    <div id="status-bar">Awaiting Opponent</div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
-    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.8.2/TweenMax.min.js"></script> -->
-<!--     <script src="js/lib/TweenMax.min.js"></script>
-    <script src="js/rpsls.min.js?1.1.0"></script> -->
+  <script src="assets/js/app.js"></script>
   </body>
 </html>
