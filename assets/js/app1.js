@@ -39,7 +39,7 @@ var database = firebase.database();
 var playersRef = database.ref('players');
 
 // ----------------------------------------------------------------
-// Intro Screen Transition Effect
+// Intro Screen & Transition Effect
 // ----------------------------------------------------------------
 
     var getName = $('.form-group');
@@ -50,7 +50,6 @@ var playersRef = database.ref('players');
     var urlBoxT = $('#urlBox');
     $(urlBoxT).hide();
     $("#chat").hide();
-
 
 
 // ----------------------------------------------------------------
@@ -475,7 +474,7 @@ connectionsRef.on("value", function(snap) {
   {
     $("#prompt").hide();
     $("#urlBox").show();
-    $("#chat").show();
+    $("#chat").show();    
 
     gamestart = false;
   } 
@@ -573,9 +572,18 @@ $("#p2paper").on("click", function(event){
 // Chat feature
 // ----------------------------
 
+
+
+// $("#newMessage input").on("keyup",function(){
+//     var msg = $("#newMessage input").val();
+
+//     console.log(msg);
+
+//   });
+
 $("#newMessage input").keypress(function(e) {
   
-  if(e.keyCode === 13){
+  if(e.keyCode == 13){
     
     var message = $("#newMessage input").val();
     console.log(message);    
@@ -583,56 +591,106 @@ $("#newMessage input").keypress(function(e) {
 
     database.ref('chat').push({
       name:username,
-      message:message,
-      disconnected:false
+      message:message
 
     });
 
-  }
+
+
+
+  // Firebase watcher + initial loader HINT: .on("value")
+  database.ref('/chat').on("value", function(childSnapshot) {
+
+    if(childSnapshot.val()!= null){
+       // storing the snapshot.val() in a variable for convenience
+      
+        var sv = childSnapshot.val();
+        var allMessages = [];
+        
+        // Getting an array of each key In the snapshot object
+        var svArr = Object.keys(sv);
+
+        // Put all message objects from database into array
+        for(var i in sv) {
+
+          // Print the initial data to the console.
+          // console.log("player" +i+ ":" +sv[i]);
+          console.log("message objects: "+sv[i]);
+
+          allMessages.push([i,sv[i]]);
+        }
+
+         // $("#listMessages").append(allMessages[1].name+" : "+allMessages[1].message);
+    }
+  });  
+
+
+        // ----------------------------------
+        // Who's the winner?
+        // ----------------------------------
+          if(childSnapshot.child(1).child("choice").exists() && childSnapshot.child(2).child("choice").exists() && p1Choice!=="" && p2Choice!==""){
+
+            // otherPlayertxt="";
+
+              if (p1Choice === p2Choice) {
+                  
+                  currentWinner="";
+                  updateGameResult();
+
+                  $("#gameStatus").text("It's a tie!");
+                   $(this).delay(5000).queue(function() {
+                  resetGameRound();
+
+                   $(this).dequeue();
+
+                });
+              } 
+              else if (
+              ((p1Choice === "rock") && (p2Choice === "scissors")) || 
+              ((p1Choice === "paper") && (p2Choice === "rock")) ||
+              ((p1Choice === "scissors") && (p2Choice === "paper"))
+              ) 
+              {     
+                  currentWinner="player1";
+                  console.log("Winner is Player 1!!");
+                  updateGameResult();
+
+                $(this).delay(5000).queue(function() {
+                  resetGameRound();
+
+                  $(this).dequeue();
+
+                });
+
+              } else 
+              {
+
+                currentWinner="player2";
+                console.log("Winner is Player 2!!");
+                updateGameResult();
+
+                $(this).delay(5000).queue(function() {
+                  resetGameRound();
+
+                  $(this).dequeue();
+
+                });
+
+              }
+
+          }
+
+      } // End of if childsnapshot != null
+
+
+
   });
 
-  
+  } // End of keycode control
 
- // Firebase watcher + initial loader HINT: .on("value")
-    database.ref('chat').on("value", function(snapshot) {
-
-      if(snapshot.val()!== null){
-          // storing the snapshot.val() in a variable for convenience
-          var sv = snapshot.val();
-          
-          // Getting an array of each key In the snapshot object
-          var svArr = Object.keys(sv);
-          // Finding the last message's key
-          var lastIndex = svArr.length - 1;
-          var lastKey = svArr[lastIndex];
-          // Using the last message's key to access the last added user object
-          var lastObj = sv[lastKey];
-          // Console.loging the last user's data
-          console.log(lastObj.name);
-          console.log(lastObj.message);
-
-          // var disconnectchat = firebase.database().ref("chat/"+lastKey);
-          // disconnectchat.onDisconnect().set({
-          //   disconnected: true
-          // });
-
-          // Change the HTML to reflect
-          $("#listMessages").append(lastObj.name+" : "+lastObj.message);
-          $("#listMessages").append("<br>");
-
-          // if(lastObj.disconnected){
-          //   $("#listMessages").append(lastObj.name+" disconnected.");
-          // }
-      }    
-
-    }, function(errorObject) {
-      console.log("Errors handled: " + errorObject.code);
-    });
+});
 
 
-  
-  
-// End of chat 
 
 
 
