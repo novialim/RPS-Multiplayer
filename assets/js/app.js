@@ -85,6 +85,8 @@ var playersRef = database.ref('players');
         $("#p2rock").unbind('click').attr('disabled', 'disabled');
         $("#p2paper").unbind('click').attr('disabled', 'disabled');
 
+        $("#newMessage").unbind('click').attr('disabled', 'disabled');
+
        }
       });
 
