@@ -65,6 +65,7 @@ var playersRef = database.ref('players');
 
       if (snapshot.child("players/1").exists() && snapshot.child("players/2").exists()){
             $("#gameStatus").html("Game is full. Kick back, relax and enjoy ongoing game. <br/> Refresh your window to join in the fun when game slot becomes available");
+            whichPlayer=3;
 
         $(getName).hide();
 
@@ -613,11 +614,12 @@ $("#newMessage input").keypress(function(e) {
           // console.log(lastObj.name);
           // console.log(lastObj.message);
 
-          
-          firebase.database().ref("chat/"+lastKey).onDisconnect().set({
-            name:username,
-            message:"has disconnected."
-          });
+          if(whichPlayer=="1" || whichPlayer=="2"){
+            firebase.database().ref("chat/"+lastKey).onDisconnect().set({
+              name:username,
+              message:"has disconnected."
+            });
+          }
 
           // Change the HTML to reflect
           $("#listMessages").append(lastObj.name+" "+lastObj.message);
