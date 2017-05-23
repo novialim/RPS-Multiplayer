@@ -621,6 +621,10 @@ $("#newMessage input").keypress(function(e) {
           $("#listMessages").append(lastObj.name+" "+lastObj.message);
           $("#listMessages").append("<br>");
 
+          var psconsole = $('#listMessages');
+          if(psconsole.length)
+            psconsole.scrollTop(psconsole[0].scrollHeight - psconsole.height());
+
           // if(lastObj.disconnected){
           //   $("#listMessages").append(lastObj.name+" disconnected.");
           // }
