@@ -19,6 +19,8 @@ var currentWinner = "";
 var gamestart = false;
 var otherPlayertxt = "";
 
+var username="";
+
 
 // Initialize Game
 reset();
@@ -92,7 +94,6 @@ var playersRef = database.ref('players');
 // ----------------------------------------------------------------
 // Get/Check Player Names Elements / Connections / Inputs
 // ----------------------------------------------------------------
-    var username;
 
     $("#addUser").on("click", function(event) {
       event.preventDefault();
@@ -172,6 +173,7 @@ var playersRef = database.ref('players');
                 $('#p1p2').text("You are Player 2");
                 whichPlayer = 2;
 
+                $("#chat").show();
                 $(getName).slideToggle(1000,"swing");
                 // $(urlBoxT).slideDown(1000);
                 $('#player2').css('visibility', 'visible');
@@ -442,8 +444,6 @@ function resetGameRound(){
 
       $("#gameStatus").html("&nbsp;");
 
-
-
 }
 
 
@@ -466,6 +466,7 @@ connectionsRef.on("value", function(snap) {
 
     $("#prompt").hide();
     $("#urlBox").hide();
+    $("#chat").show();
 
     gamestart = true;
 
@@ -475,7 +476,6 @@ connectionsRef.on("value", function(snap) {
   {
     $("#prompt").hide();
     $("#urlBox").show();
-    $("#chat").show();
 
     gamestart = false;
   } 
@@ -497,6 +497,7 @@ connectionsRef.on("value", function(snap) {
 
   if(snap.numChildren()==0){
     $("#prompt").show();
+    firebase.database().ref('chat/').onDisconnect().set(null);
     reset();
   } 
 
@@ -584,7 +585,6 @@ $("#newMessage input").keypress(function(e) {
     database.ref('chat').push({
       name:username,
       message:message,
-      disconnected:false
 
     });
 
@@ -608,16 +608,17 @@ $("#newMessage input").keypress(function(e) {
           // Using the last message's key to access the last added user object
           var lastObj = sv[lastKey];
           // Console.loging the last user's data
-          console.log(lastObj.name);
-          console.log(lastObj.message);
+          // console.log(lastObj.name);
+          // console.log(lastObj.message);
 
-          // var disconnectchat = firebase.database().ref("chat/"+lastKey);
-          // disconnectchat.onDisconnect().set({
-          //   disconnected: true
-          // });
+          
+          firebase.database().ref("chat/"+lastKey).onDisconnect().set({
+            name:username,
+            message:"has disconnected."
+          });
 
           // Change the HTML to reflect
-          $("#listMessages").append(lastObj.name+" : "+lastObj.message);
+          $("#listMessages").append(lastObj.name+" "+lastObj.message);
           $("#listMessages").append("<br>");
 
           // if(lastObj.disconnected){
@@ -626,7 +627,7 @@ $("#newMessage input").keypress(function(e) {
       }    
 
     }, function(errorObject) {
-      console.log("Errors handled: " + errorObject.code);
+      // console.log("Errors handled: " + errorObject.code);
     });
 
 
@@ -657,4 +658,5 @@ function reset(){
   p1loss=0;
   p2win=0;
   p2loss=0;
+
 }
