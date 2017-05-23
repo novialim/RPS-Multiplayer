@@ -622,7 +622,7 @@ $("#newMessage input").keypress(function(e) {
           }
 
           // Change the HTML to reflect
-          $("#listMessages").append(lastObj.name+" "+lastObj.message);
+          $("#listMessages").append(lastObj.name+" : "+lastObj.message);
           $("#listMessages").append("<br>");
 
           var psconsole = $('#listMessages');
